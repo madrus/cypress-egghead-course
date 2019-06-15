@@ -80,3 +80,7 @@ Now, when we hover over properties and values or add a new value in the `cypress
 ---
 
 ## Lesson 4
+
+To begin with tests we move the `cypress/integration/examples` folder out of the project (to keep the examples) and create our own test file inside `cypress/integration` folder: `todos.spec.js`. Next we run the application with `yarn start` inside the VSCode and run our Cypress tests by running `yarn cypress` in another terminal.
+
+> It is very important to double check that the inverse assertion of any assertion you make does in fact fail. Like checking that some class is not present on some element. If we choose the wrong element, the assertion will be true but the test useless. One way to make sure is to inverse the assertion again and make sure it fails.
