@@ -26,7 +26,7 @@ yarn install
 
 Personally, I also like to upgrade to new versions of the dependencies.
 
-## Lesson 1
+## Lessons 1 through 3
 
 Initialize `gitflow` and create a new feature branch `feature/les1`.
 
@@ -34,20 +34,23 @@ Initialize `gitflow` and create a new feature branch `feature/les1`.
 yarn add -D cypress
 ```
 
-Merge branch `01-cypress-install` into `feature/les1`.
-
-Run `cypress` by one of the two commands:
+Run `cypress` by the following command:
 
 ``` bash
-yarn cypress
 $(yarn bin)/cypress open
 ```
+
+You can also add the following script definition to `package.json` file:
+
+``` json
+"cypress": "cypress open"
+```
+
+and then run `yarn cypress`.
 
 This will open the Cypress interactive GUI which comes pre-seeded with a number of tests.
 
 As a homework, study all the different tests the GUI runs. Also check `cypress/integration/examples/` folder to see the tests.
-
-## Lesson 2
 
 All `.spec.js` files have intellisense. It comes with the following directive at the beginning of the file:
 
@@ -73,3 +76,7 @@ We can also add our custom settings to the `cypress.json` file in the root of th
 ```
 
 Now, when we hover over properties and values or add a new value in the `cypress.json` file, we get to see all the necessary hints.
+
+---
+
+## Lesson 4
