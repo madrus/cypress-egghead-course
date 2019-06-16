@@ -15,6 +15,8 @@ A modern full-stack framework intended to help you focus on the frontend part of
 * Backend:
   * json-server (Manages all the nitty gritty of an API for us)
 
+---
+
 ## Get started
 
 All you have to do to get started is:
@@ -25,6 +27,8 @@ yarn install
 ```
 
 Personally, I also like to upgrade to new versions of the dependencies.
+
+---
 
 ## Lessons 1 through 3
 
@@ -85,6 +89,8 @@ To begin with tests we move the `cypress/integration/examples` folder out of the
 
 > It is very important to double check that the inverse assertion of any assertion you make does in fact fail. Like checking that some class is not present on some element. If we choose the wrong element, the assertion will be true but the test useless. One way to make sure is to inverse the assertion again and make sure it fails.
 
+---
+
 ## Lesson 5 - Cypress selectors
 
 If we open up `src/components/TodoItem.js`, we can add a `data-cy` attribute. `data-cy` is exclusively used for testing. We can communicate to our teammates that we intend it to be used in a task.
@@ -108,12 +114,58 @@ Now in our test instead of
 
 ``` js
 cy
-	get('.todo-list li:nth-child(1)')
+	.get('.todo-list li:nth-child(1)')
 ```
 
 we can better write
 
 ``` js
 cy
-	get('[data-cy=todo-item-3]')
+  .get('[data-cy=todo-item-3]')
 ```
+
+---
+
+## Lesson 6 - Debugging and Logging
+
+Cypress code is asynchronous in nature. So, putting the `debugger` statememnt between `cy` statements won't work. We can however include async debugging inside the `cy` statement like so:
+
+``` js
+cy
+  .get('[data-cy=todo-item-3]')
+  .then(element => {debugger})
+  .should('have.text', 'Hello world')
+  .should('not.have.class', 'completed')
+  .find('.toggle')
+  .should('not.be.checked')
+```
+
+Alternatively, Cypress provides its own `.debug()` method:
+
+``` js
+cy
+  .get('[data-cy=todo-item-3]')
+  .debug()
+  .should('have.text', 'Hello world')
+  .should('not.have.class', 'completed')
+  .find('.toggle')
+  .should('not.be.checked')
+```
+
+We can also add logging statements like this:
+
+``` js
+cy.log('about to fetch the element')
+```
+
+or add some extra checks like this:
+
+``` js
+const getName = () => {
+  return 'Jane Lane'
+}
+
+cy.wrap({ name: getName }).invoke('name').should('eq', 'Jane Lane') // true
+```
+
+---
