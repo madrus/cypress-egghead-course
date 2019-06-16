@@ -84,3 +84,36 @@ Now, when we hover over properties and values or add a new value in the `cypress
 To begin with tests we move the `cypress/integration/examples` folder out of the project (to keep the examples) and create our own test file inside `cypress/integration` folder: `todos.spec.js`. Next we run the application with `yarn start` inside the VSCode and run our Cypress tests by running `yarn cypress` in another terminal.
 
 > It is very important to double check that the inverse assertion of any assertion you make does in fact fail. Like checking that some class is not present on some element. If we choose the wrong element, the assertion will be true but the test useless. One way to make sure is to inverse the assertion again and make sure it fails.
+
+## Lesson 5 - Cypress selectors
+
+If we open up `src/components/TodoItem.js`, we can add a `data-cy` attribute. `data-cy` is exclusively used for testing. We can communicate to our teammates that we intend it to be used in a task.
+
+``` jsx
+return (
+  <li data-cy={`todo-item-${todo.id}`} className={classnames({
+    completed: todo.completed,
+    editing: this.state.editing
+  })}>
+    {element}
+  </li>
+)
+```
+
+By using the unique ID of the to-do, we can guarantee that this will have a unique `data-cy` attribute and that it will be easy for us to target regardless of where it is in the DOM or what its implementation is.
+
+In our test we can now point to the necessary time more precisely. In the tests panel click on the little target to open the selector playground. The selector playground will make recommendations as to the best way to target each element. For instance, if we want to target this item, we can click on it and see that it recommends the `[data-cy=todo-item-3]`.
+
+Now in our test instead of
+
+``` js
+cy
+	get('.todo-list li:nth-child(1)')
+```
+
+we can better write
+
+``` js
+cy
+	get('[data-cy=todo-item-3]')
+```
