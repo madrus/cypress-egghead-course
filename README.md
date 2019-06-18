@@ -169,3 +169,31 @@ cy.wrap({ name: getName }).invoke('name').should('eq', 'Jane Lane') // true
 ```
 
 ---
+
+## Lesson 7 - Mock your backend with Cypress
+
+Before we can mock our backend, we need to run `cy.server()` command in the beginning of our test file. In our Cypress runner we see that the first call is an XHR-request to `/api/todos`. Then in our `todos.spec.js`we write:
+
+``` js
+cy.server()
+cy.route('/api/todos', [
+  {
+    text: 'Hello world',
+    completed: false,
+    id: 3,
+  },
+  {
+    text: 'Goodnight moon',
+    completed: true,
+    id: 5,
+  },
+]).as('preload')
+cy.visit('/')
+cy.wait('@preload')
+```
+
+copying the array of todos from the `db.json` file. The `cy.wait('@preload')` command insures we wait for the `preload` route to load.
+
+> We can also inspect our preload deeper by clicking on the `preload` in the cypress test runner, opening the console window and inspecting the `XMLHttpRequest`.
+
+---

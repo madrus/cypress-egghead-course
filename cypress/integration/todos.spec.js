@@ -2,11 +2,23 @@
 
 describe('Todo Application', () => {
   it('loads the home page', () => {
+    cy.server()
+    cy
+      .route('/api/todos', [
+        {
+          text: 'Hello world',
+          completed: false,
+          id: 3,
+        },
+        {
+          text: 'Goodnight moon',
+          completed: true,
+          id: 5,
+        },
+      ])
+      .as('preload')
     cy.visit('/')
-
-    cy.log('about to fetch the element')
-
-    cy.wrap(5).should('eq', 5)
+    cy.wait('@preload')
 
     cy
       .get('[data-cy=todo-item-3]')
